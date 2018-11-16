@@ -1,0 +1,33 @@
+#res_undefined{
+display: -webkit-inline-box !important;
+}
+.modal-open .modal{
+overflow: scroll !important;
+}
+.jcrop-holder{
+margin:0 auto;
+}
+.modal-body{
+padding-left:0 !important;
+}
+.webuploader-pick{
+background:none;
+width:61%;
+padding:2px 2px 0px 2px; !important;
+}
+.webuploader-pick-hover{
+background:none;
+}
+.file-name{
+	float:left;
+}
+
+#loadingModal .modal-dialog{
+	width:300px;
+}
+#loadingModal .modal-content{
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	padding:0 20px;
+	text-align:center;
+}

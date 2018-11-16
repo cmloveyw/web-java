@@ -1,0 +1,1 @@
+var PlatformIndexApp = angular.module('myApp', []);
