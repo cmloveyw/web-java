@@ -22,40 +22,6 @@ public class DistributedLock {
         this.jedisPool = jedisPool;
     }
 
-    /*public String lockWithTimeout(String lockName, long acquireTimeout, long timeout) {
-        Jedis conn = null;
-        String retIdentifier = null;
-        try {
-            conn = jedisPool.getResource();
-            String identifier = UUID.randomUUID().toString();
-            String lockKey = "lock" + lockName;
-            int locakExpire = (int) (timeout / 1000);
-            long end = System.currentTimeMillis() + acquireTimeout;
-            while (System.currentTimeMillis() < end) {
-                if (conn.setnx(lockKey, identifier) == 1) {
-                    retIdentifier = identifier;
-                    return retIdentifier;
-                }
-                if (conn.ttl(lockKey) == -1) {
-                    conn.expire(lockKey, locakExpire);
-                }
-                retIdentifier = identifier;
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (JedisException e) {
-            e.printStackTrace();
-        } finally {
-            if (conn != null) {
-                conn.close();
-            }
-        }
-        return retIdentifier;
-    }*/
-
 
     public String lockWithTimeout(String lockName, long acquireTimeout, long timeout) {
         Jedis conn = null;
@@ -77,7 +43,8 @@ public class DistributedLock {
                     conn.expire(lockKey, lockExpire);
                     // 返回value值，用于释放锁时间确认
                     retIdentifier = identifier;
-                    return retIdentifier;
+                    break;
+                    //return retIdentifier;
                 }
                 // 返回-1代表key没有设置超时时间，为key设置一个超时时间
                 if (conn.ttl(lockKey) == -1) {
@@ -131,34 +98,4 @@ public class DistributedLock {
         }
         return retFlag;
     }
-
-    /*public boolean releaseLock(String lockName, String identifier) {
-        Jedis conn = null;
-        String lockKey = "locak" + lockName;
-        boolean retFlag = false;
-        try {
-            conn = jedisPool.getResource();
-            while (true) {
-                conn.watch(lockKey);
-                if (identifier.equals(conn.get(lockKey))) {
-                    Transaction transaction = conn.multi();
-                    transaction.del(lockKey);
-                    List<Object> results = transaction.exec();
-                    if (results == null) {
-                        continue;
-                    }
-                    retFlag = true;
-                }
-                conn.unwatch();
-                break;
-            }
-        } catch (JedisException e) {
-            e.printStackTrace();
-        } finally {
-            if (conn != null) {
-                conn.close();
-            }
-        }
-        return retFlag;
-    }*/
 }

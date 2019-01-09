@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
+    <context:component-scan base-package="test.SpringTest.MyAop1"></context:component-scan>
+    <bean id="userProxy" class="test.SpringTest.MyAop1.ProxyFactory"
+          factory-method="getProxyFactory">
+        <constructor-arg index="0" ref="userDao"></constructor-arg>
+        <constructor-arg index="1" ref="myAop"></constructor-arg>
+    </bean>
+</beans>
