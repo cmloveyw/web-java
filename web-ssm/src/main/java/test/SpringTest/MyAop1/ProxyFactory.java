@@ -1,7 +1,5 @@
 package test.SpringTest.MyAop1;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 /**
@@ -22,14 +20,12 @@ public class ProxyFactory {
         aop = _aop;
         return Proxy.newProxyInstance(target.getClass().getClassLoader(),
                 target.getClass().getInterfaces(),
-                new InvocationHandler() {
-                    @Override
-                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                        aop.beginTrans();
-                        Object reaultValue = method.invoke(target, args);
-                        aop.commitTrans();
-                        return reaultValue;
-                    }
+                (proxy, method, args) -> {
+                    aop.beginTrans();
+                    Object reaultValue = method.invoke(target, args);
+                    aop.commitTrans();
+                    return reaultValue;
+
                 });
     }
 }
