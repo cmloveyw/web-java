@@ -23,13 +23,13 @@ public class T {
 
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         format.setLenient(false);
-//要转换字符串 str_test
+        //要转换字符串 str_test
         String str_test = "2011-04-24";
         try {
             Timestamp ts = new Timestamp(format.parse(str_test).getTime());
             System.out.println(ts.toString());
         } catch (ParseException e) {
-// TODO Auto-generated catch block
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
