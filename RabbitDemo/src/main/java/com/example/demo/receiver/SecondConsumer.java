@@ -15,7 +15,7 @@ import java.io.IOException;
  * @创建时间: 2019-1-18
  */
 @Component
-public class FirstConsumer {
+public class SecondConsumer {
     @RabbitListener(queues = {"first-queue", "second-queue"}, containerFactory = "rabbitListenerContainerFactory")
     /*public void handleMessage(String message) {
         //处理消息
@@ -25,10 +25,10 @@ public class FirstConsumer {
     public void handleMessage(Message message, Channel channel) throws IOException {
         try {
             //处理消息
-            System.out.println("FirstConsumer{} handleMessage:" + new String(message.getBody()));
+            System.out.println("SecondConsumer{} handleMessage:" + new String(message.getBody()));
             //throw new Exception();
         } catch (Exception e) {
-            System.out.println("Consumer handleMessage{},error" + new String(message.getBody()));
+            System.out.println("SecondConsumer handleMessage{},error" + new String(message.getBody()));
             /**
              * 第一个参数 deliveryTag：就是接受的消息的deliveryTag,可以通过msg.getMessageProperties().getDeliveryTag()获得
              * 第二个参数 multiple：如果为true，确认之前接受到的消息；如果为false，只确认当前消息。

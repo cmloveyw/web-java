@@ -2,13 +2,16 @@ package com.example.demo.config;
 
 import com.example.demo.mqcallback.MsgReturnCallBack;
 import com.example.demo.mqcallback.MsgSendConfirmCallBack;
+import com.rabbitmq.client.Channel;
 import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.amqp.rabbit.listener.api.ChannelAwareMessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -77,9 +80,18 @@ public class RabbitMqConfig {
         SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer(connectionFactory);
         simpleMessageListenerContainer.addQueues(queueConfig.firstQueue());
         simpleMessageListenerContainer.setExposeListenerChannel(true);
-        simpleMessageListenerContainer.setMaxConcurrentConsumers(5);
+        simpleMessageListenerContainer.setMaxConcurrentConsumers(1);
         simpleMessageListenerContainer.setConcurrentConsumers(1);
         simpleMessageListenerContainer.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+        simpleMessageListenerContainer.setMessageListener(new ChannelAwareMessageListener() {
+            @Override
+            public void onMessage(Message message, Channel channel) throws Exception {
+                channel.basicQos(1);
+                byte[] body = message.getBody();
+                System.out.println("接收队列的消息："+new String(body));
+                channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
+            }
+        });
         return simpleMessageListenerContainer;
     }*/
 
