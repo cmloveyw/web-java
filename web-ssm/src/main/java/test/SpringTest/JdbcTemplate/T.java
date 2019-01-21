@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 /**
  * @version 1.0
  * @类名: T.java
- * @描述:
+ * @描述: String 转 Timestap
  * @创建人: CM
  * @创建时间: 2019-1-10
  */
