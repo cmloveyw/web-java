@@ -42,6 +42,7 @@ public class FirstSender {
                 .setContentType(MessageProperties.CONTENT_TYPE_JSON)
                 .setCorrelationId(uuid).build();
 
+
         CorrelationData correlationData = new CorrelationData(uuid);
         // TODO 将 msgId 与 Message 的关系保存起来
         /**
